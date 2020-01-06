@@ -4,15 +4,15 @@
 <link rel="stylesheet" type="text/css" href="css/skeleton.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
-  (function(w,d,s,c,n,a,b){w['PactSafeObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},w[n].t=1*new Date();a=d.createElement(s),b=d.getElementsByTagName(s)[0];a.async=1;a.src=c;b.parentNode.insertBefore(a,b)})(window,document,'script', '//ps-vault.s3.amazonaws.com/ps.min.js','_ps');
-  // initiate PactSafe with your SITE ACCESS ID found here: http://beta.pactsafe.com/settings/account
+  (function(w,d,s,c,f,n,t,g,a,b,l){w['PactSafeObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},w[n].on=function(){(w[n].e=w[n].e||[]).push(arguments)},w[n].once=function(){(w[n].eo=w[n].eo||[]).push(arguments)},w[n].off=function(){(w[n].o=w[n].o||[]).push(arguments)},w[n].t=1*new Date(),w[n].l=0;a=d.createElement(s);b=d.getElementsByTagName(s)[0];a.async=1;a.src=c;a.onload=a.onreadystatechange=function(){w[n].l=1};a.onerror=a.onabort=function(){w[n].l=0};b.parentNode.insertBefore(a,b);setTimeout(function(){if(!w[n].l&&!w[n].loaded){w[n].error=1;a=d.createElement(s);a.async=1;a.src=f;a.onload=a.onreadystatechange=function(){w[n].l=1};a.onerror=a.onabort=function(){w[n].l=0};b.parentNode.insertBefore(a,b);l=function(u,e){try{e=d.createElement('img');e.src='https://d3r8bdci515tjv.cloudfront.net/error.gif?t='+w[n].t+'&u='+encodeURIComponent(u);d.getElementsByTagName('body')[0].appendChild(e)}catch(x){}};l(c);setTimeout(function(){if(!w[n].l&&!w[n].loaded){w[n].error=1;if(g&&'function'==typeof g){g.call(this);}l(f)}},t)}},t)})(window,document,'script','//vault.pactsafe.io/ps.min.js','//d3l1mqnl5xpsuc.cloudfront.net/ps.min.js','_ps',4000);
+  // initiate PactSafe with your SITE ACCESS ID found here: https://app.pactsafe.com/settings/account
   _ps('create', '25b2b173-632a-4227-9877-31d2109d8c98');
   // load a specific group
-  // dynamically loads http://ps-vault.s3.amazonaws.com/s/<SITE ACCESS ID>/groups/<AGREEMT GROUP KEY>/group.js
-  // your group key can be found here: https://beta.pactsafe.com/groups
+  // dynamically loads https://vault.pactsafe.io/s/<SITE ACCESS ID>/groups/<AGREEMT GROUP KEY>/group.js
+  // your group key can be found here: https://app.pactsafe.com/groups
   	// => click into your group and find the "Key" field
   	// => should be something like checkout-click-through-agreement
-  var agreement_key = 'register-clickwrap';
+  const agreement_key = 'register-clickwrap';
   _ps('load', agreement_key);
 
   //when the form is submitted, double check that all contract checkboxes are checked
@@ -23,13 +23,13 @@
       // ALL client-side validation would go here
       // validate();
 
-      // Add a trigger to check status of PactSafe being checked
-      if(_ps.getByKey(agreement_key).allChecked()){
-        // this.submit();
-        console.log("Thanks for agreeing!");
+      // Check to see if the PactSafe clickwrap has been accepted and if submission should be blocked.
+      if(_ps.getByKey(agreement_key).block()) {
+        // If true, then we should block the submission.
+        console.log('Agree to our terms. Kthx!');
       } else {
-        // do something if the user doesn't check all the boxes
-        console.log("Agree to our terms. Kthx!");
+        // this.submit();
+        console.log('Thanks for agreeing!');
       }
     });
   });
